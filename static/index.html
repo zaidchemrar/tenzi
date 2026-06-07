@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tenzi — Football Oracle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HOME SCREEN -->
+  <div id="home-screen" class="screen active">
+    <div class="pitch-header">
+      <div class="pitch-stripes">
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+      </div>
+      <div class="halfway-line"></div>
+      <div class="center-circle"></div>
+      <div class="header-content">
+        <img src="genie.png" class="genie-img" alt="Tenzi" onerror="this.style.display='none'"/>
+        <div class="trophy-row">
+          <div class="trophy-line"></div>
+          <span>🏆</span>
+          <div class="trophy-line"></div>
+        </div>
+        <div class="game-title">TEN<span>ZI</span></div>
+        <div class="tagline">The Football Oracle</div>
+        <div class="scoreboard">
+          <div class="score-dot"></div>
+          <span>25 PLAYERS · 25 CLUBS · 16 NATIONS</span>
+          <div class="score-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-content">
+      <div class="mode-label">Choose your challenge</div>
+      <div class="mode-grid">
+        <button class="mode-btn btn-player" onclick="startGame('player')">
+          <span class="mode-icon">⚽</span>
+          <span class="mode-name">Player</span>
+          <span class="mode-count">25 stars</span>
+        </button>
+        <button class="mode-btn btn-team" onclick="startGame('team')">
+          <span class="mode-icon">🏟️</span>
+          <span class="mode-name">Club</span>
+          <span class="mode-count">25 clubs</span>
+        </button>
+        <button class="mode-btn btn-nation" onclick="startGame('nation')">
+          <span class="mode-icon">🌍</span>
+          <span class="mode-name">Nation</span>
+          <span class="mode-count">16 teams</span>
+        </button>
+      </div>
+      <button class="surprise-btn" onclick="startGame('all')">⚡ SURPRISE ME</button>
+    </div>
+    <div class="pitch-bottom"></div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" class="screen">
+    <div class="pitch-header" style="padding: 16px 24px;">
+      <div class="pitch-stripes">
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+      </div>
+      <div class="header-content" style="display:flex; align-items:center; gap:10px; justify-content:center;">
+        <img src="genie.png" class="genie-img-small" alt="Tenzi" onerror="this.style.display='none'"/>
+        <div>
+          <div class="game-title" style="font-size:32px; letter-spacing:4px;">TEN<span>ZI</span></div>
+          <div id="thinking-text" class="thinking-text">Reading your mind...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-content">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+
+      <div class="question-panel">
+        <div class="q-header">
+          <div class="q-badge">QUESTION <span id="q-number">1</span></div>
+          <div class="q-remaining"><span id="candidates-count">66</span> remaining</div>
+        </div>
+        <div class="q-text" id="question-text">Loading...</div>
+        <div class="ans-row">
+          <button class="ans-btn ans-yes" onclick="answer('yes')">✅ Yes</button>
+          <button class="ans-btn ans-no" onclick="answer('no')">❌ No</button>
+          <button class="ans-btn ans-maybe" onclick="answer('maybe')">🤔 Maybe</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" id="stat-total">66</div>
+          <div class="stat-lbl">Total</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-questions">0</div>
+          <div class="stat-lbl">Questions</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="stat-remaining">66</div>
+          <div class="stat-lbl">Left</div>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetGame()">↩ Start Over</button>
+    </div>
+    <div class="pitch-bottom"></div>
+  </div>
+
+  <!-- GUESS SCREEN -->
+  <div id="guess-screen" class="screen">
+    <div class="pitch-header" style="padding: 16px 24px;">
+      <div class="pitch-stripes">
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+      </div>
+      <div class="header-content">
+        <div class="game-title" style="font-size:32px; letter-spacing:4px;">TEN<span>ZI</span></div>
+      </div>
+    </div>
+
+    <div class="guess-content">
+      <div class="guess-label">I think you're thinking of...</div>
+      <div class="guess-card">
+        <div class="guess-name" id="guess-name">Loading...</div>
+        <div class="guess-type" id="guess-type"></div>
+      </div>
+      <div class="guess-buttons">
+        <button class="correct-btn" onclick="correct()">🎉 Correct!</button>
+        <button class="wrong-btn" onclick="wrong()">❌ Wrong!</button>
+      </div>
+      <button class="reset-btn" onclick="resetGame()">↩ Start Over</button>
+    </div>
+    <div class="pitch-bottom"></div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen" class="screen">
+    <div class="pitch-header" style="padding:16px 24px;">
+      <div class="pitch-stripes">
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+        <div class="pitch-stripe"></div><div class="pitch-stripe"></div>
+      </div>
+      <div class="header-content">
+        <div class="game-title" style="font-size:32px; letter-spacing:4px;">TEN<span>ZI</span></div>
+      </div>
+    </div>
+
+    <div class="result-content">
+      <div id="result-emoji" class="result-emoji">🎉</div>
+      <div id="result-title" class="result-title">Got it!</div>
+      <div id="result-text" class="result-text"></div>
+      <button class="play-again-btn" onclick="resetGame()">⚡ Play Again</button>
+    </div>
+    <div class="pitch-bottom"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
